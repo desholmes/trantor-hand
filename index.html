@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trantor Hand</title>
+<meta name="description" content="Foundation Titles Hand with a new lowercase, UK English characters and WOFF2/WOFF webfonts. Regular and SemiBold, OFL-licensed.">
+<link rel="stylesheet" href="fonts/webfonts/trantor-hand.css">
+<style>
+  :root { --ink: #111; --muted: #6b6b6b; --bg: #fff; --rule: #e4e4e4; --code: #f4f4f4; --link: #0b57d0; }
+  @media (prefers-color-scheme: dark) {
+    :root { --ink: #eee; --muted: #9a9a9a; --bg: #121212; --rule: #2a2a2a; --code: #1d1d1d; --link: #8ab4f8; }
+  }
+  body { margin: 0; padding: 48px 16px; background: var(--bg); color: var(--ink);
+         font-family: "Trantor Hand", sans-serif; font-size: 19px; line-height: 1.6; }
+  main { max-width: 760px; margin: 0 auto; }
+  a { color: var(--link); }
+  h1 { font-size: clamp(56px, 12vw, 104px); line-height: 1; font-weight: 600; margin: 0 0 16px; }
+  h2 { font-size: 30px; font-weight: 600; margin: 0 0 12px; }
+  header { padding-bottom: 36px; }
+  section { border-top: 1px solid var(--rule); padding: 28px 0; }
+  .lede { font-size: 23px; max-width: 34ch; margin: 0 0 28px; }
+  .cta { display: inline-block; font-weight: 600; font-size: 21px; padding: 10px 22px;
+         border: 2px solid currentColor; border-radius: 999px; text-decoration: none; }
+  .actions { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 24px; }
+  footer { border-top: 1px solid var(--rule); padding-top: 20px; font-size: 16px; color: var(--muted); }
+  .sample { font-size: 36px; line-height: 1.3; margin: 0; overflow-wrap: anywhere; }
+  .sample + .sample { margin-top: 8px; }
+  .ss01 { font-feature-settings: "ss01"; }
+  ul { padding-left: 1.2em; margin: 0; }
+  li + li { margin-top: 6px; }
+  code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 14px; }
+  code { background: var(--code); padding: 1px 5px; border-radius: 4px; }
+  pre { background: var(--code); padding: 14px 16px; border-radius: 8px; overflow-x: auto; line-height: 1.5; margin: 12px 0; }
+  pre code { background: none; padding: 0; }
+  .note { font: 14px/1.5 system-ui, sans-serif; color: var(--muted); }
+  table { border-collapse: collapse; width: 100%; }
+  td { padding: 6px 0; border-bottom: 1px solid var(--rule); vertical-align: top; }
+  td:first-child { padding-right: 16px; white-space: nowrap; }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>Trantor Hand</h1>
+    <p class="lede">The capitals of the Foundation title sequence, now with a lowercase for everyday UK English.</p>
+    <div class="actions">
+      <a class="cta" href="specimen/">View the type specimen →</a>
+      <a href="https://github.com/desholmes/trantor-hand">Source on GitHub</a>
+    </div>
+  </header>
+
+  <section>
+    <p class="sample">Psychohistory predicts the fall of the Empire.</p>
+    <p class="sample" style="font-weight: 600">A naïve café on Terminus charges £4.50.</p>
+    <p class="sample ss01">Foundation &amp; Empire, now with ss01</p>
+  </section>
+
+  <section>
+    <h2>About</h2>
+    <p>Trantor Hand builds on <a href="https://github.com/rsperberg/foundation-titles-hand">Foundation Titles Hand</a> v0.85 by Roger Sperberg, a hand-drawn font based on the title credits of the Apple TV+ series <em>Foundation</em>. The original has capitals, figures and punctuation; its lowercase was a copy of the capitals. Trantor Hand adds:</p>
+    <ul>
+      <li>a new lowercase a–z, drawn in the same rounded, single-weight style as the capitals, in Regular and SemiBold;</li>
+      <li>accented letters for UK English loanwords such as café, naïve, rôle, façade and señor;</li>
+      <li>£, €, …, •, ° and a no-break space;</li>
+      <li>kerning for the lowercase;</li>
+      <li>an optional stylistic set (<code>ss01</code>) with the dotted o and crossed w of the title-sequence capitals.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Using the webfont</h2>
+    <p>Copy the <code>fonts/webfonts/</code> folder into your site and include the stylesheet:</p>
+<pre><code>&lt;link rel="stylesheet" href="/fonts/trantor-hand.css"&gt;</code></pre>
+<pre><code>body { font-family: "Trantor Hand", sans-serif; }   /* Regular, 400 */
+strong, h1, h2 { font-weight: 600; }                 /* SemiBold */
+.titles { font-feature-settings: "ss01"; }           /* dotted o, crossed w */</code></pre>
+  </section>
+
+  <section>
+    <h2>Downloads</h2>
+    <table>
+      <tr><td>Webfonts</td><td>
+        <a href="fonts/webfonts/TrantorHand-Regular.woff2">Regular WOFF2</a> ·
+        <a href="fonts/webfonts/TrantorHand-SemiBold.woff2">SemiBold WOFF2</a> ·
+        <a href="fonts/webfonts/TrantorHand-Regular.woff">Regular WOFF</a> ·
+        <a href="fonts/webfonts/TrantorHand-SemiBold.woff">SemiBold WOFF</a> ·
+        <a href="fonts/webfonts/trantor-hand.css">CSS</a>
+      </td></tr>
+      <tr><td>Desktop</td><td>
+        <a href="fonts/ttf/TrantorHand-Regular.ttf">Regular TTF</a> ·
+        <a href="fonts/ttf/TrantorHand-SemiBold.ttf">SemiBold TTF</a>
+      </td></tr>
+      <tr><td>Licence</td><td><a href="OFL.txt">SIL Open Font License 1.1</a> · <a href="FONTLOG.txt">Font log</a></td></tr>
+    </table>
+  </section>
+
+  <section>
+    <h2>Licence and credits</h2>
+    <p>Capitals, figures and punctuation © 2021 Roger Sperberg. Lowercase and Latin-1 additions © 2026 Codecup Ltd. Released under the SIL Open Font License 1.1: free to use, embed and modify, but not to sell on its own. Include the licence text when you redistribute the fonts.</p>
+    <p class="note">The original licence reserves the name “FoundationTitlesHand”, so this modified version is published as Trantor Hand. <em>Foundation</em> is an Apple TV+ series; this project isn't affiliated with or endorsed by Apple or the series' creators.</p>
+  </section>
+
+  <footer>
+    <a href="https://github.com/desholmes/trantor-hand">github.com/desholmes/trantor-hand</a> ·
+    Made by <a href="https://dholmes.co.uk/">dholmes.co.uk</a>
+  </footer>
+</main>
+</body>
+</html>
