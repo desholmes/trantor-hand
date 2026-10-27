@@ -1,5 +1,7 @@
 # Trantor Hand
 
+[About this project](https://desholmes.github.io/trantor-hand/).
+
 **Trantor Hand** is Foundation Titles Hand v0.85 (Regular and SemiBold) with:
 
 1. a new lowercase a–z, drawn in the same monoline, round-ended style as the capitals and stroked at the same weight (80 units Regular, 101 SemiBold);
