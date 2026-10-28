@@ -1,4 +1,4 @@
-.PHONY: fonts specimen check-uv check-sfw check-trivy update-exclude-newer add add-dev lock upgrade sync audit
+.PHONY: fonts check-fonts release specimen check-uv check-sfw check-trivy update-exclude-newer add add-dev lock upgrade sync audit
 
 UV=uv
 SFW=sfw
@@ -11,6 +11,20 @@ EXCLUDE_NEWER=$(shell date -u -v-$(MIN_RELEASE_AGE_DAYS)d +%Y-%m-%dT%H:%M:%SZ 2>
 # the build to one family (hand, caption, mark); all families are built by default.
 fonts: sync
 	$(UV) run --locked python build/build.py $(FAMILY)
+
+# Rebuild and fail if the fonts in fonts/ don't match what the sources build.
+# Other platforms build within floating-point noise of the committed files
+# (see build/check.py), so the committed files are put back afterwards.
+check-fonts: sync
+	@tmp=$$(mktemp -d) && cp -R fonts "$$tmp/committed" && \
+	$(UV) run --locked python build/build.py >/dev/null && \
+	( cd build && $(UV) run --locked python check.py ../fonts "$$tmp/committed" ); status=$$?; \
+	rm -rf fonts && mv "$$tmp/committed" fonts && rm -rf "$$tmp"; exit $$status
+
+# Package dist/*.zip, SHA256SUMS and NOTES.md for a GitHub release. TAG, if
+# given, must match the font version (e.g. make release TAG=v1.000).
+release: check-fonts
+	$(UV) run --locked python build/release.py $(TAG)
 
 specimen: fonts
 	@echo "Open http://localhost:8000/ (each family has a specimen page)"

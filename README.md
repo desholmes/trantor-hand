@@ -1,86 +1,40 @@
-# Trantor Hand
+# Trantor
 
-[About this project](https://desholmes.github.io/trantor-type/).
+[Specimens and usage](https://desholmes.github.io/trantor-type/) · [Download the latest release](https://github.com/desholmes/trantor-type/releases/latest)
 
-**Trantor Hand** is Foundation Titles Hand v0.85 (Regular and SemiBold) with:
+Three fonts based on the lettering of the Apple TV+ series *Foundation*, each extended with a lowercase, a SemiBold and the characters for everyday UK English (café, naïve, façade, £, €). They are modified versions of Roger Sperberg's OFL fonts, renamed because the original names are reserved.
 
-1. a new lowercase a–z, drawn in the same monoline, round-ended style as the capitals and stroked at the same weight (80 units Regular, 101 SemiBold);
-1. accented letters for UK English loanwords (café, naïve, rôle, façade, señor, Zoë…): à á â ä ç è é ê ë ì í î ï ñ ò ó ô ö ù ú û ü, their capitals, and ı;
-1. £, €, …, •, ° and a no-break space;
-1. rebuilt kerning: the original capital pairs plus lowercase pairs (Ta, Yo, We, r., y, …);
-1. an optional stylistic set (`ss01`) with the dotted o and crossed w of the title-sequence capitals.
+| Family              | Based on                                                                          | Use it for                               | Stylistic set 1                        |
+| ------------------- | --------------------------------------------------------------------------------- | ---------------------------------------- | -------------------------------------- |
+| **Trantor Hand**    | [Foundation Titles Hand](https://github.com/rsperberg/foundation-titles-hand) 0.85 | Titles, headings and short text          | Dotted o and crossed w                 |
+| **Trantor Caption** | [Foundation One](https://github.com/rsperberg/foundation-one) 0.4                  | Labels and captions, usually in capitals | Dotted e, like E                       |
+| **Trantor Mark**    | [Foundation Logo](https://github.com/rsperberg/foundation-logo) 0.3                | Wordmarks and a few large words          | Capitals from the thinner logo (`salt`) |
 
-The upstream licence reserves the name "FoundationTitlesHand", so the modified font has to use a different name. To rename it, change `FAMILY` and `CSS_FILE` in [build/hand/family.py](build/hand/family.py) and rebuild.
+Every family has Regular (400) and SemiBold (600) weights.
 
-## Using the webfont
+## Using the fonts
 
-Copy [fonts/hand/webfonts/](fonts/hand/webfonts/) into the web application and include the stylesheet:
+On the web, load the series stylesheet from a release, or self-host [fonts/](fonts/):
 
 ```html
-<link rel="stylesheet" href="/fonts/trantor-hand.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/desholmes/trantor-type@v1.000/fonts/trantor.css" />
 ```
 
 ```css
-body {
-  font-family: "Trantor Hand", sans-serif;
-} /* weight 400 */
-strong,
-h1,
-h2 {
-  font-weight: 600;
-} /* SemiBold */
-.titles {
-  font-feature-settings: "ss01";
-} /* dotted o, crossed w */
+h1, h2 { font-family: "Trantor Mark", sans-serif; font-weight: 600; }
+body   { font-family: "Trantor Hand", sans-serif; }
+.label { font-family: "Trantor Caption", sans-serif; text-transform: uppercase; letter-spacing: 0.04em; }
+.titles { font-feature-settings: "ss01"; }
 ```
 
-WOFF2 (with a WOFF fallback) is used by all current browsers. Desktop TTFs are in [fonts/hand/ttf/](fonts/hand/ttf/).
+Each family also has its own stylesheet in `fonts/<family>/webfonts/`. Desktop TTFs are in `fonts/<family>/ttf/` and in the release zips. Each family's [specimen page](https://desholmes.github.io/trantor-type/) covers its stylistic set, spacing and install notes.
 
-Open the specimen with `make specimen` and go to <http://localhost:8000/specimen/>. Opening it directly from disk won't work because browsers block fonts loaded over `file://`.
+## Licence
 
-## Prerequisites
+The fonts are licensed under the SIL Open Font License 1.1 ([OFL.txt](OFL.txt); each family's folder in [families/](families/) has its own copy and FONTLOG). You can use, embed and modify them, but not sell them on their own, and the licence must go with them when you redistribute them. The build tooling and the site are MIT-licensed ([LICENSE-CODE](LICENSE-CODE)).
 
-- [uv](https://docs.astral.sh/uv/) manages Python and the dependencies: `brew install uv`.
-- [Socket Firewall](https://socket.dev/) (`sfw`) vets packages as they are downloaded. It is needed only to add, lock or upgrade dependencies, not to build: `npm install -g sfw`.
-- [Trivy](https://trivy.dev/) scans the locked dependencies for known vulnerabilities: `brew install trivy`.
+*Foundation* is an Apple TV+ series based on the Isaac Asimov books. These fan-made fonts aren't affiliated with or endorsed by Apple, Skydance or the Asimov estate. The font licence doesn't cover the show's trademarks.
 
-## Building
+## Contributing
 
-```sh
-make fonts
-```
-
-This installs the locked dependencies with uv and runs [build/build.py](build/build.py) (`make fonts FAMILY=hand` builds one family), which:
-
-1. loads the upstream TTFs from [families/hand/upstream/fonts/ttf/latest/](families/hand/upstream/fonts/ttf/latest/);
-2. replaces the placeholder lowercase (upstream duplicated the capitals) with glyphs drawn as centre-line skeletons in [build/hand/glyphs.py](build/hand/glyphs.py) and expanded to outlines with round caps and joins ([build/skeleton.py](build/skeleton.py));
-3. adds the accented composites and symbols;
-4. rebuilds kerning ([build/hand/kerning.py](build/hand/kerning.py)), names, vertical metrics and OS/2 data;
-5. writes `fonts/hand/ttf/*.ttf`, `fonts/hand/webfonts/*.woff2`, `*.woff` and `trantor-hand.css`.
-
-To change a letter, edit its skeleton in `build/hand/glyphs.py` and rebuild. Both weights update together.
-
-## Dependencies
-
-Dependencies are declared in [pyproject.toml](pyproject.toml) and locked with hashes in [uv.lock](uv.lock). Measures against supply chain attacks:
-
-- **Exact pins.** Every direct dependency is pinned to one version (`==`).
-- **Minimum release age.** Versions published in the last 3 days are ignored (`exclude-newer`), so a compromised release has time to be found and pulled before it can be locked.
-- **Socket Firewall.** Every command that resolves dependencies runs through `sfw`, which blocks known-malicious packages.
-- **Wheels only.** `no-build` stops uv from building source distributions, so no third-party build code runs.
-- **Locked installs.** `uv sync --locked` installs exactly what is in `uv.lock` and fails if the lockfile is out of date.
-
-| Command                        | What it does                                            |
-| ------------------------------ | ------------------------------------------------------- |
-| `make sync`                    | Install from `uv.lock`                                  |
-| `make add PKG=name==1.2.3`     | Add a dependency (exact version required)               |
-| `make add-dev PKG=name==1.2.3` | Add a development dependency                            |
-| `make lock`                    | Re-resolve `uv.lock` after editing `pyproject.toml`     |
-| `make upgrade PKG=name`        | Upgrade one locked package, e.g. to fix a vulnerability |
-| `make audit`                   | Fail on HIGH-severity known vulnerabilities (Trivy)     |
-
-## Source and licence
-
-[families/hand/upstream/](families/hand/upstream/) is a copy of [rsperberg/foundation-titles-hand](https://github.com/rsperberg/foundation-titles-hand) at commit `1c7b784` (22 Nov 2021), trimmed to what the build and licence need: the v0.85 TTFs, the original iFontMaker sources and the licence and font-log files. The sample images, the title-sequence reference frames and the older font versions were removed; the images in `families/hand/upstream/README.md` now link to the original repo.
-
-The fonts are licensed under the SIL Open Font License 1.1 (see [OFL.txt](OFL.txt)). The licence text has to be distributed with the fonts, and the fonts may not be sold on their own. Change history is in [families/hand/FONTLOG.txt](families/hand/FONTLOG.txt).
+To build the fonts, change a glyph or make a release, see [CONTRIBUTING.md](CONTRIBUTING.md).

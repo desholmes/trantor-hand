@@ -104,7 +104,7 @@ trantor-type/
 ```
 
 Notes on the structure:
-- **Keep committing built fonts.** Pages serves from the repo, and builds are already byte-identical (`RELEASE_EPOCH`), so CI can rebuild and fail if the committed files are stale.
+- **Keep committing built fonts.** Pages serves from the repo, and builds are byte-identical on one platform (`RELEASE_EPOCH`), so CI can rebuild and fail if the committed files are stale. *(Built: across platforms skia-pathops differs by floating-point noise, so `make check-fonts` compares outlines within one unit and requires names, cmap, advances and features to match exactly. Releases package the committed fonts.)*
 - **Refactor `build/build.py` before adding the new fonts.** Its `Builder` class becomes the shared base in `common.py`, and each family supplies its specifics. Make sure Hand's output is byte-identical before and after the refactor (only the paths change); this proves the refactor.
 - **Record upstream provenance.** Vendor each upstream (TTF, `.ifm2archive` sources, OFL, FONTLOG, README) under `families/<name>/upstream/` with the commit SHA it came from. Leave out the sample and reference JPGs; we'll link to them instead.
 
@@ -130,8 +130,8 @@ GitHub Pages, static HTML, using the fonts themselves:
 
 - **Version the series as a whole.** All families share one version, and the tag equals the font version string: tag `v1.000` ↔ name-table `Version 1.000`. Per-family tags (`hand-v1.000`) break GitHub's "Latest release" and complicate CI, so I'd only use them if the families need to ship independently. *(Decision 3)*
 - **Release assets:**
-  - `TrantorType-v1.000.zip`: every family, `OFL.txt`, FONTLOGs and a README.
-  - One zip per family, e.g. `TrantorHand-v1.000.zip`: `ttf/`, `webfonts/` with CSS, that family's `OFL.txt` and `FONTLOG.txt`, and a short README.
+  - `TrantorType.zip`: every family, `OFL.txt`, FONTLOGs and a README. *(Built without versions in the names, so `releases/latest/download/<name>` links stay stable.)*
+  - One zip per family, e.g. `TrantorHand.zip`: `ttf/`, `webfonts/` with CSS, that family's `OFL.txt` and `FONTLOG.txt`, and a short README.
   - `SHA256SUMS`.
 - **`make release`** builds the zips locally into `dist/`, which is git-ignored.
 - **`release.yml`** runs on a `v*` tag push:

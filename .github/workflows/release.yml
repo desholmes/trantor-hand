@@ -1,0 +1,44 @@
+name: Release
+
+# On a version tag (v1.000 for fonts Version 1.000): check the fonts, package
+# the committed fonts and publish a GitHub release with the zips, checksums
+# and notes from the FONTLOGs.
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: read
+
+jobs:
+  release:
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      # Actions are pinned to commit SHAs (see CONTRIBUTING.md).
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884 # v10.3.0
+        with:
+          version: "0.12.3"
+          enable-cache: false
+      - uses: aquasecurity/setup-trivy@81e514348e19b6112ce2a7e3ecbafe19c1e1f567 # v0.3.1
+        with:
+          version: v0.70.0
+      - name: Scan dependencies
+        run: make audit
+      - name: Check and package the fonts
+        env:
+          TAG: ${{ github.ref_name }}
+        run: make release TAG="$TAG"
+      - name: Publish the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.ref_name }}
+        run: >
+          gh release create "$TAG" dist/*.zip dist/SHA256SUMS
+          --repo "$GITHUB_REPOSITORY" --verify-tag
+          --title "Trantor $TAG" --notes-file dist/NOTES.md
