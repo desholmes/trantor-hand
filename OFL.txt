@@ -1,6 +1,10 @@
 Copyright (c) 2021, Roger Sperberg (https://github.com/rsperberg/foundation-titles-hand),
 with Reserved Font Name FoundationTitlesHand.
-Lowercase and Latin-1 additions copyright (c) 2026, Codecup Ltd.
+Copyright (c) 2021, Roger Sperberg (https://github.com/rsperberg/foundation-one),
+with Reserved Font Name FoundationOne.
+Copyright (c) 2021, Roger Sperberg (https://github.com/rsperberg/foundation-logo),
+with Reserved Font Name FoundationLogo.
+Lowercase, SemiBold and Latin-1 additions copyright (c) 2026, Codecup Ltd.
 
 This Font Software is licensed under the SIL Open Font License, Version 1.1.
 This license is copied below, and is also available with a FAQ at:

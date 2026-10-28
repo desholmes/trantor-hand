@@ -12,6 +12,8 @@ Supported Unicode: U+0020-007E, U+00A0, U+00A3, U+00B0, U+00C0-00C2, U+00C4, U+0
 
 Weights: Regular (400) and SemiBold (600).
 
+Trantor Hand, Trantor Caption and Trantor Mark make up the Trantor font series (https://github.com/desholmes/trantor-type). They are fan-made fonts based on lettering seen in Foundation, the Apple TV+ series based on the Isaac Asimov books, and are not affiliated with or endorsed by Apple, Skydance or the Asimov estate.
+
 ChangeLog
 
 27 October 2026 Trantor Hand version 1.000
