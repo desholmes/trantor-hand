@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trantor Caption</title>
+<meta name="description" content="Trantor Caption: the place-and-time captions of Foundation, with a lowercase and a SemiBold. OFL-licensed.">
+<link rel="stylesheet" href="../fonts/trantor.css">
+<link rel="stylesheet" href="../assets/site.css">
+<style>:root { --face: "Trantor Caption"; }</style>
+</head>
+<body>
+<main>
+  <p class="crumb"><a href="../">← The Trantor series</a></p>
+  <header>
+    <h1>Trantor Caption</h1>
+    <p class="lede">The lettering that tells you where and when you are in Foundation, with a lowercase and a SemiBold.</p>
+    <div class="actions">
+      <a class="cta" href="https://github.com/desholmes/trantor-type/releases/latest/download/TrantorCaption.zip">Download</a>
+      <a href="#usage">Using the fonts</a>
+    </div>
+  </header>
+
+  <section>
+    <div class="tester-controls">
+      <label>Size <input type="range" name="size" min="16" max="160" value="64"> <output>64px</output></label>
+      <label><input type="checkbox" name="weight"> SemiBold</label>
+      <label><input type="checkbox" name="ss01"> ss01: dotted e, like E</label>
+      <label><input type="checkbox" name="caps"> Capitals</label>
+    </div>
+    <p class="tester" contenteditable="true" spellcheck="false">Seventeen years after the Starbridge bombing</p>
+  </section>
+
+  <section class="waterfall">
+    <p>Terminus, the Vault — Cleon the 14th — 400 years earlier</p>
+  </section>
+
+  <section>
+    <p class="label">Character set</p>
+    <div class="grid" data-chars="ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 0123456789 !&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^_`{|}~ ‘’“”–—…•°£€ ¤ ÀÁÂÄÇÈÉÊËÌÍÎÏÑÒÓÔÖÙÚÛÜ àáâäçèéêëìíîïñòóôöùúûüı"></div>
+  </section>
+
+  <section>
+    <p class="label">Stylistic set 1: dotted e, like E</p>
+    <div class="compare">
+      <div><p class="label">Default</p><p>Seventeen years, ever</p></div>
+      <div><p class="label">ss01</p><p class="ss01">Seventeen years, ever</p></div>
+    </div>
+  </section>
+
+  <section class="cols">
+    <div>
+      <p class="label">Regular 400, 20px</p>
+      <p class="text">The colour of the sky over Terminus was grey, and the Encyclopaedia’s café served a naïve crème brûlée for £4.50. Organise, analyse, recognise — the quick brown fox jumps over the lazy dog.</p>
+    </div>
+    <div>
+      <p class="label">SemiBold 600, 20px</p>
+      <p class="text semibold">The colour of the sky over Terminus was grey, and the Encyclopaedia’s café served a naïve crème brûlée for £4.50. Organise, analyse, recognise — the quick brown fox jumps over the lazy dog.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>About</h2>
+    <p>Trantor Caption builds on <a href="https://github.com/rsperberg/foundation-one">Foundation One</a> v0.4, based on the lettering <em>Foundation</em> sets over a scene to mark a new place or time: “Synnax”, “400 years earlier”. Its capitals have distinctive S, M, U, W, B, K and G shapes, and dots stand in for the bars of A, E, F and H. The original was capitals only, in one weight. Trantor Caption adds:</p>
+    <ul>
+      <li>a lowercase a–z built the same way: rounded-rectangle bowls, square-shouldered arches, flat stroke ends and a dot for the bar of f;</li>
+      <li>a SemiBold, made by thickening the Regular;</li>
+      <li>the Basic Latin symbols the original lacked ($ % * ^ _ ` ~);</li>
+      <li>accented letters for UK English loanwords, £, €, …, •, ° and a no-break space;</li>
+      <li>kerning for the lowercase;</li>
+      <li>an optional stylistic set (<code>ss01</code>) with an e that has a dot in place of its bar, like E. It is harder to read in running text, so keep it for display.</li>
+    </ul>
+    <p>Use it for labels, captions and short lines. For the on-screen look, set it in capitals with a little extra spacing.</p>
+  </section>
+
+  <section id="usage">
+    <h2>Using the fonts</h2>
+    <h3>On the web</h3>
+    <p>Self-host the <code>webfonts/</code> folder from the download and include its stylesheet, or load it from jsDelivr pinned to a release:</p>
+<pre><code>&lt;link rel="stylesheet" href="/fonts/trantor-caption.css"&gt;
+&lt;!-- or --&gt;
+&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/desholmes/trantor-type@v1.000/fonts/caption/webfonts/trantor-caption.css"&gt;</code></pre>
+<pre><code>body { font-family: "Trantor Caption", sans-serif; }   /* Regular, 400 */
+strong, h1, h2 { font-weight: 600; }                 /* SemiBold */
+.caption { font-family: "Trantor Caption", sans-serif;
+           text-transform: uppercase; letter-spacing: 0.04em; }
+.display { font-feature-settings: "ss01"; }          /* dotted e */</code></pre>
+    <p>To speed up the first paint, preload the WOFF2 you use above the fold: <code>&lt;link rel="preload" href="/fonts/TrantorCaption-Regular.woff2" as="font" type="font/woff2" crossorigin&gt;</code>.</p>
+    <h3>On the desktop</h3>
+    <p>Install the TTFs from the download's <code>ttf/</code> folder (double-click on macOS, right-click → Install on Windows). Use it in capitals for labels and captions, as on screen.</p>
+  </section>
+
+  <section>
+    <h2>Downloads</h2>
+    <table>
+      <tr><td>Everything</td><td><a href="https://github.com/desholmes/trantor-type/releases/latest/download/TrantorCaption.zip">TrantorCaption.zip</a> (TTF, WOFF2, WOFF, CSS, licence)</td></tr>
+      <tr><td>Webfonts</td><td>
+        <a href="../fonts/caption/webfonts/TrantorCaption-Regular.woff2">Regular WOFF2</a> ·
+        <a href="../fonts/caption/webfonts/TrantorCaption-SemiBold.woff2">SemiBold WOFF2</a> ·
+        <a href="../fonts/caption/webfonts/trantor-caption.css">CSS</a>
+      </td></tr>
+      <tr><td>Desktop</td><td>
+        <a href="../fonts/caption/ttf/TrantorCaption-Regular.ttf">Regular TTF</a> ·
+        <a href="../fonts/caption/ttf/TrantorCaption-SemiBold.ttf">SemiBold TTF</a>
+      </td></tr>
+      <tr><td>Licence</td><td><a href="../families/caption/OFL.txt">SIL Open Font License 1.1</a> · <a href="../families/caption/FONTLOG.txt">Font log</a></td></tr>
+    </table>
+  </section>
+
+  <section>
+    <h2>Licence and credits</h2>
+    <p>Capitals, figures and punctuation © 2021 Roger Sperberg. Lowercase, SemiBold and Latin-1 additions © 2026 Codecup Ltd. Released under the SIL Open Font License 1.1: free to use, embed and modify, but not to sell on its own. Include the licence when you redistribute the fonts.</p>
+    <p class="note">The original licence reserves the name “FoundationOne”, so this modified version is published as Trantor Caption. <em>Foundation</em> is an Apple TV+ series; these fan-made fonts aren't affiliated with or endorsed by Apple, Skydance or the Asimov estate.</p>
+  </section>
+
+  <footer>
+    <a href="https://github.com/desholmes/trantor-type">github.com/desholmes/trantor-type</a> ·
+    Made by <a href="https://dholmes.co.uk/">dholmes.co.uk</a>
+  </footer>
+</main>
+<script src="../assets/specimen.js"></script>
+</body>
+</html>

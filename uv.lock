@@ -273,7 +273,7 @@ wheels = [
 ]
 
 [[package]]
-name = "trantor-hand"
+name = "trantor-type"
 version = "1.0.0"
 source = { virtual = "." }
 dependencies = [

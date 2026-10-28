@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trantor Mark</title>
+<meta name="description" content="Trantor Mark: the letters of the Foundation logo, with a lowercase, a SemiBold and the alternate capitals of the thinner logo. OFL-licensed.">
+<link rel="stylesheet" href="../fonts/trantor.css">
+<link rel="stylesheet" href="../assets/site.css">
+<style>:root { --face: "Trantor Mark"; }</style>
+</head>
+<body>
+<main>
+  <p class="crumb"><a href="../">← The Trantor series</a></p>
+  <header>
+    <h1>Trantor Mark</h1>
+    <p class="lede">The letters of the Foundation logo, widely spaced, with a lowercase and a SemiBold.</p>
+    <div class="actions">
+      <a class="cta" href="https://github.com/desholmes/trantor-type/releases/latest/download/TrantorMark.zip">Download</a>
+      <a href="#usage">Using the fonts</a>
+    </div>
+  </header>
+
+  <section>
+    <div class="tester-controls">
+      <label>Size <input type="range" name="size" min="16" max="160" value="64"> <output>64px</output></label>
+      <label><input type="checkbox" name="weight"> SemiBold</label>
+      <label><input type="checkbox" name="ss01"> ss01: alternate capitals from the thinner logo</label>
+      <label><input type="checkbox" name="caps"> Capitals</label>
+    </div>
+    <p class="tester" contenteditable="true" spellcheck="false">Encyclopedia Galactica</p>
+  </section>
+
+  <section class="waterfall">
+    <p>The Galactic Empire, on Trantor, in the year 12,067</p>
+  </section>
+
+  <section>
+    <p class="label">Character set</p>
+    <div class="grid" data-chars="ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 0123456789 !&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^_`{|}~ ‘’“”–—…•°£€ ÀÁÂÄÇÈÉÊËÌÍÎÏÑÒÓÔÖÙÚÛÜ àáâäçèéêëìíîïñòóôöùúûüı"></div>
+  </section>
+
+  <section>
+    <p class="label">Stylistic set 1: alternate capitals from the thinner logo</p>
+    <div class="compare">
+      <div><p class="label">Default</p><p>EFKPSWXYZ</p></div>
+      <div><p class="label">ss01</p><p class="ss01">EFKPSWXYZ</p></div>
+    </div>
+  </section>
+
+  <section class="cols">
+    <div>
+      <p class="label">Regular 400, 20px</p>
+      <p class="text">The colour of the sky over Terminus was grey, and the Encyclopaedia’s café served a naïve crème brûlée for £4.50. Organise, analyse, recognise — the quick brown fox jumps over the lazy dog.</p>
+    </div>
+    <div>
+      <p class="label">SemiBold 600, 20px</p>
+      <p class="text semibold">The colour of the sky over Terminus was grey, and the Encyclopaedia’s café served a naïve crème brûlée for £4.50. Organise, analyse, recognise — the quick brown fox jumps over the lazy dog.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>About</h2>
+    <p>Trantor Mark builds on <a href="https://github.com/rsperberg/foundation-logo">Foundation Logo</a> v0.3, based on the logo of the Apple TV+ series <em>Foundation</em>. Only the letters of “Foundation” appear in the logo; the rest of the original's capitals, figures and punctuation were conjectured in the same circular, flat-ended style, with the logo's wide spacing built in. Trantor Mark adds:</p>
+    <ul>
+      <li>a lowercase a–z built the same way: circular bowls, flat stroke ends, and E's dot in place of the bar of e;</li>
+      <li>a SemiBold, made by thickening the Regular;</li>
+      <li>accented letters for UK English loanwords, £, €, …, •, ° and a no-break space;</li>
+      <li>kerning for the lowercase;</li>
+      <li>the alternate E F K P S W X Y Z from the series' second, thinner logo, as stylistic set 1 (<code>ss01</code>, also <code>salt</code>).</li>
+    </ul>
+    <p>Use it for wordmarks and a few large words. The wide spacing is part of the design; for longer lines, tighten it with <code>letter-spacing</code>.</p>
+  </section>
+
+  <section id="usage">
+    <h2>Using the fonts</h2>
+    <h3>On the web</h3>
+    <p>Self-host the <code>webfonts/</code> folder from the download and include its stylesheet, or load it from jsDelivr pinned to a release:</p>
+<pre><code>&lt;link rel="stylesheet" href="/fonts/trantor-mark.css"&gt;
+&lt;!-- or --&gt;
+&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/desholmes/trantor-type@v1.000/fonts/mark/webfonts/trantor-mark.css"&gt;</code></pre>
+<pre><code>body { font-family: "Trantor Mark", sans-serif; }   /* Regular, 400 */
+strong, h1, h2 { font-weight: 600; }                 /* SemiBold */
+.wordmark { font-feature-settings: "ss01"; }        /* thinner-logo capitals */
+.tight { letter-spacing: -0.12em; }                  /* less of the logo spacing */</code></pre>
+    <p>To speed up the first paint, preload the WOFF2 you use above the fold: <code>&lt;link rel="preload" href="/fonts/TrantorMark-Regular.woff2" as="font" type="font/woff2" crossorigin&gt;</code>.</p>
+    <h3>On the desktop</h3>
+    <p>Install the TTFs from the download's <code>ttf/</code> folder (double-click on macOS, right-click → Install on Windows). In design apps the alternate capitals appear as stylistic set 1 and in the alternates (salt) picker.</p>
+  </section>
+
+  <section>
+    <h2>Downloads</h2>
+    <table>
+      <tr><td>Everything</td><td><a href="https://github.com/desholmes/trantor-type/releases/latest/download/TrantorMark.zip">TrantorMark.zip</a> (TTF, WOFF2, WOFF, CSS, licence)</td></tr>
+      <tr><td>Webfonts</td><td>
+        <a href="../fonts/mark/webfonts/TrantorMark-Regular.woff2">Regular WOFF2</a> ·
+        <a href="../fonts/mark/webfonts/TrantorMark-SemiBold.woff2">SemiBold WOFF2</a> ·
+        <a href="../fonts/mark/webfonts/trantor-mark.css">CSS</a>
+      </td></tr>
+      <tr><td>Desktop</td><td>
+        <a href="../fonts/mark/ttf/TrantorMark-Regular.ttf">Regular TTF</a> ·
+        <a href="../fonts/mark/ttf/TrantorMark-SemiBold.ttf">SemiBold TTF</a>
+      </td></tr>
+      <tr><td>Licence</td><td><a href="../families/mark/OFL.txt">SIL Open Font License 1.1</a> · <a href="../families/mark/FONTLOG.txt">Font log</a></td></tr>
+    </table>
+  </section>
+
+  <section>
+    <h2>Licence and credits</h2>
+    <p>Capitals, figures and punctuation © 2021 Roger Sperberg. Lowercase, SemiBold and Latin-1 additions © 2026 Codecup Ltd. Released under the SIL Open Font License 1.1: free to use, embed and modify, but not to sell on its own. Include the licence when you redistribute the fonts.</p>
+    <p class="note">The original licence reserves the name “FoundationLogo”, so this modified version is published as Trantor Mark. <em>Foundation</em> is an Apple TV+ series; these fan-made fonts aren't affiliated with or endorsed by Apple, Skydance or the Asimov estate.</p>
+  </section>
+
+  <footer>
+    <a href="https://github.com/desholmes/trantor-type">github.com/desholmes/trantor-type</a> ·
+    Made by <a href="https://dholmes.co.uk/">dholmes.co.uk</a>
+  </footer>
+</main>
+<script src="../assets/specimen.js"></script>
+</body>
+</html>
