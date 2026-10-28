@@ -1,0 +1,82 @@
+/* Shared styles for the Trantor series site. Prose is set in Trantor Hand;
+   each family page sets --face for its specimens and title. */
+:root {
+  --ink: #111; --muted: #6b6b6b; --bg: #fff; --rule: #e4e4e4; --code: #f4f4f4;
+  --link: #0b57d0; --card: #fafafa;
+  --face: "Trantor Hand";
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ink: #eee; --muted: #9a9a9a; --bg: #121212; --rule: #2a2a2a; --code: #1d1d1d;
+    --link: #8ab4f8; --card: #181818;
+  }
+}
+:root[data-theme="dark"] {
+  --ink: #eee; --muted: #9a9a9a; --bg: #121212; --rule: #2a2a2a; --code: #1d1d1d;
+  --link: #8ab4f8; --card: #181818;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; padding: 40px 16px 48px; background: var(--bg); color: var(--ink);
+       font-family: "Trantor Hand", sans-serif; font-size: 19px; line-height: 1.6; }
+h1, .tester, .waterfall, .grid, .compare, .text { font-family: var(--face), sans-serif; }
+main { max-width: 960px; margin: 0 auto; }
+a { color: var(--link); }
+h1 { font-size: clamp(52px, 11vw, 104px); line-height: 1; font-weight: 600; margin: 0 0 16px; }
+h2 { font-size: 30px; font-weight: 600; margin: 0 0 12px; }
+h3 { font-size: 22px; font-weight: 600; margin: 20px 0 6px; }
+header { padding-bottom: 32px; }
+section { border-top: 1px solid var(--rule); padding: 28px 0; }
+p { margin: 0 0 12px; }
+ul { padding-left: 1.2em; margin: 0 0 12px; }
+li + li { margin-top: 6px; }
+
+.crumb { font: 14px/1.4 system-ui, sans-serif; margin: 0 0 20px; }
+.crumb a { color: var(--muted); }
+.lede { font-size: 23px; max-width: 36ch; margin: 0 0 24px; }
+.actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; }
+.cta { display: inline-block; font-weight: 600; font-size: 20px; padding: 8px 20px;
+       border: 2px solid currentColor; border-radius: 999px; text-decoration: none; }
+.note, .label { font: 14px/1.5 system-ui, sans-serif; color: var(--muted); }
+.label { margin: 0 0 6px; }
+footer { border-top: 1px solid var(--rule); padding-top: 20px; font: 14px/1.6 system-ui, sans-serif; color: var(--muted); }
+footer a { color: inherit; }
+
+/* Code */
+code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 14px; }
+code { background: var(--code); padding: 1px 5px; border-radius: 4px; }
+pre { background: var(--code); padding: 14px 16px; border-radius: 8px; overflow-x: auto; line-height: 1.5; margin: 8px 0 16px; }
+pre code { background: none; padding: 0; }
+
+/* Landing page cards */
+.cards { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+.card { background: var(--card); border: 1px solid var(--rule); border-radius: 12px; padding: 20px;
+        display: flex; flex-direction: column; gap: 8px; }
+.card h2 { font-size: 26px; margin: 0; }
+.card .sample { font-size: 34px; line-height: 1.2; margin: 4px 0; overflow-wrap: anywhere; }
+.card .meta { font: 14px/1.5 system-ui, sans-serif; color: var(--muted); margin: 0; }
+.card .links { margin-top: auto; font: 15px/1.5 system-ui, sans-serif; display: flex; gap: 16px; flex-wrap: wrap; }
+
+/* Specimen */
+.tester-controls { display: flex; flex-wrap: wrap; gap: 10px 20px; align-items: center;
+                   font: 14px/1.4 system-ui, sans-serif; color: var(--muted); margin-bottom: 12px; }
+.tester-controls label { display: inline-flex; align-items: center; gap: 6px; }
+.tester-controls input[type="range"] { width: 140px; }
+.tester { font-size: 64px; line-height: 1.2; margin: 0; outline: none; overflow-wrap: anywhere;
+          border-bottom: 1px dashed var(--rule); padding-bottom: 8px; min-height: 1.2em; }
+.tester:focus { border-bottom-color: var(--muted); }
+.waterfall p { margin: 0 0 4px; white-space: nowrap; overflow: hidden; text-overflow: clip; line-height: 1.25; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(56px, 1fr)); gap: 1px;
+        background: var(--rule); border: 1px solid var(--rule); }
+.grid span { background: var(--bg); font-size: 30px; line-height: 1; text-align: center; padding: 12px 0; }
+.compare { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+.compare p:not(.label) { font-size: 40px; line-height: 1.2; margin: 0; overflow-wrap: anywhere; }
+.text { font-size: 20px; line-height: 1.5; max-width: 60ch; }
+.cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+.semibold { font-weight: 600; }
+.ss01 { font-feature-settings: "ss01"; }
+.caps { text-transform: uppercase; }
+
+table { border-collapse: collapse; width: 100%; font: 15px/1.5 system-ui, sans-serif; }
+td { padding: 6px 0; border-bottom: 1px solid var(--rule); vertical-align: top; }
+td:first-child { padding-right: 16px; white-space: nowrap; color: var(--muted); }

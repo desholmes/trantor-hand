@@ -338,20 +338,24 @@ feature {tag} {{
 
     @classmethod
     def build_family(cls):
-        fonts = [(spec, cls(spec).build()) for spec in cls.WEIGHTS]
-        cls.write_css(fonts)
+        for spec in cls.WEIGHTS:
+            cls(spec).build()
+        (cls.web_dir() / cls.CSS_FILE).write_text(cls.css())
 
     @classmethod
-    def write_css(cls, fonts):
+    def css(cls, prefix=""):
+        """@font-face rules for every weight; prefix is the path from the
+        stylesheet to the webfonts folder."""
         rules = []
-        for spec, ps_name in fonts:
+        for spec in cls.WEIGHTS:
+            ps_name = f"{cls.FAMILY.replace(' ', '')}-{spec['style']}"
             rules.append(f"""@font-face {{
   font-family: "{cls.FAMILY}";
-  src: url("{ps_name}.woff2") format("woff2"),
-       url("{ps_name}.woff") format("woff");
+  src: url("{prefix}{ps_name}.woff2") format("woff2"),
+       url("{prefix}{ps_name}.woff") format("woff");
   font-weight: {spec["weight"]};
   font-style: normal;
   font-display: swap;
 }}
 """)
-        (cls.web_dir() / cls.CSS_FILE).write_text("\n".join(rules))
+        return "\n".join(rules)

@@ -13,7 +13,7 @@ fonts: sync
 	$(UV) run --locked python build/build.py $(FAMILY)
 
 specimen: fonts
-	@echo "Open http://localhost:8000/specimen/"
+	@echo "Open http://localhost:8000/ (each family has a specimen page)"
 	$(UV) run --locked python -m http.server 8000
 
 check-uv:
