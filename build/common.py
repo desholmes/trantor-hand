@@ -24,7 +24,7 @@ ROOT = Path(__file__).resolve().parent.parent
 VERSION = "1.000"
 # Font timestamps are pinned to the release date so rebuilds are byte-identical.
 # Update alongside VERSION; SOURCE_DATE_EPOCH in the environment overrides it.
-RELEASE_EPOCH = "1793059200"  # 2026-10-27T00:00:00Z
+RELEASE_EPOCH = "1793145600"  # 2026-10-28T00:00:00Z
 
 LICENSE = (
     "This Font Software is licensed under the SIL Open Font License, Version 1.1. "

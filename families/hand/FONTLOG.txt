@@ -16,7 +16,7 @@ Trantor Hand, Trantor Caption and Trantor Mark make up the Trantor font series (
 
 ChangeLog
 
-27 October 2026 Trantor Hand version 1.000
+28 October 2026 Trantor Hand version 1.000
 - renamed from Foundation Titles Hand (Reserved Font Name)
 - added a lowercase a-z in both weights, drawn as centre-line skeletons and stroked to match the capitals
 - added accented vowels, c cedilla and n tilde (lower and upper case), dotless i, pound sterling, euro, ellipsis, bullet, degree and no-break space
