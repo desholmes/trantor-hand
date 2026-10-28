@@ -1,13 +1,30 @@
 """Centre-line ("skeleton") drawing helpers.
 
-The capitals in Foundation Titles Hand are monoline strokes with round caps
-and joins. New glyphs are drawn the same way: as centre lines that are then
-expanded to outlines at the stroke width of each weight, so they match the
-capitals in both Regular and SemiBold.
+The capitals of the upstream fonts are monoline strokes: Foundation Titles
+Hand has round ends and joins, Foundation Logo and Foundation One have flat
+ends and sharp corners. New glyphs are drawn the same way: as centre lines
+that are then expanded to outlines at the stroke width of each weight, so
+they match the capitals in both Regular and SemiBold.
 """
 import math
+from dataclasses import dataclass
 
 import pathops
+
+CAPS = {"round": pathops.LineCap.ROUND_CAP, "flat": pathops.LineCap.BUTT_CAP}
+JOINS = {"round": pathops.LineJoin.ROUND_JOIN, "sharp": pathops.LineJoin.MITER_JOIN}
+
+
+@dataclass
+class Glyph:
+    """A glyph drawn from skeleton parts. `sb` is the (left, right) side bearing
+    measured from the ink, and `top` is the centre-line x used to place
+    accents (it defaults to the middle of the ink)."""
+
+    parts: list
+    sb: tuple
+    unicode: int = None
+    top: float = None
 
 
 def _point(cx, cy, rx, ry, angle):
@@ -57,7 +74,7 @@ class Stroke:
         self.closed = True
         return self
 
-    def path(self, width):
+    def path(self, width, cap="round", join="round"):
         p = pathops.Path()
         p.moveTo(*self.start)
         for kind, data in self.segments:
@@ -67,7 +84,7 @@ class Stroke:
                 p.cubicTo(*data[0], *data[1], *data[2])
         if self.closed:
             p.close()
-        p.stroke(width, pathops.LineCap.ROUND_CAP, pathops.LineJoin.ROUND_JOIN, 4)
+        p.stroke(width, CAPS[cap], JOINS[join], 4)
         p.convertConicsToQuads()
         return p
 
@@ -78,7 +95,7 @@ class Disc:
     def __init__(self, x, y, r=None):
         self.x, self.y, self.r = x, y, r
 
-    def path(self, width):
+    def path(self, width, cap="round", join="round"):
         r = self.r if self.r is not None else width / 2 + 18
         s = Stroke(self.x + r, self.y).arc(self.x, self.y, r, 0, 360).close()
         p = pathops.Path()
@@ -98,11 +115,62 @@ def circle(cx, cy, r, ry=None):
     return arc(cx, cy, r, 0, 360, ry).close()
 
 
-def outline(parts, width):
+def poly(points, r=0, closed=False):
+    """A stroke through points with each corner rounded to radius r.
+
+    A point given as (x, y, r) has its own radius; 0 keeps the corner sharp.
+    The rounding is shrunk where a segment is too short for it.
+    """
+    pts = [(p[0], p[1]) for p in points]
+    radii = [p[2] if len(p) > 2 else r for p in points]
+    n = len(pts)
+    corners = range(n) if closed else range(1, n - 1)
+    start = ((pts[0][0] + pts[1][0]) / 2, (pts[0][1] + pts[1][1]) / 2) if closed else pts[0]
+    s = Stroke(*start)
+    for i in list(corners)[1:] + [0] if closed else corners:
+        p, prev, nxt = pts[i], pts[i - 1], pts[(i + 1) % n]
+        din, dout = math.dist(prev, p), math.dist(p, nxt)
+        u = ((p[0] - prev[0]) / din, (p[1] - prev[1]) / din)
+        v = ((nxt[0] - p[0]) / dout, (nxt[1] - p[1]) / dout)
+        turn = math.acos(max(-1, min(1, u[0] * v[0] + u[1] * v[1])))
+        if not radii[i] or turn < 1e-6:
+            s.line(*p)
+            continue
+        t = min(radii[i] * math.tan(turn / 2), din / 2, dout / 2)
+        rr = t / math.tan(turn / 2)
+        h = 4 / 3 * math.tan(turn / 4) * rr
+        a = (p[0] - u[0] * t, p[1] - u[1] * t)
+        b = (p[0] + v[0] * t, p[1] + v[1] * t)
+        s.line(*a).curve((a[0] + u[0] * h, a[1] + u[1] * h), (b[0] - v[0] * h, b[1] - v[1] * h), b)
+    if closed:
+        s.line(*start).close()
+    else:
+        s.line(*pts[-1])
+    return s
+
+
+class Clipped:
+    """Parts cut off below y0 and above y1, for stroke ends that sit level on
+    the baseline or x-height instead of square to a diagonal stroke."""
+
+    def __init__(self, parts, y0, y1):
+        self.parts, self.y0, self.y1 = parts, y0, y1
+
+    def path(self, width, cap="round", join="round"):
+        box = pathops.Path()
+        box.moveTo(-5000, self.y0)
+        box.lineTo(5000, self.y0)
+        box.lineTo(5000, self.y1)
+        box.lineTo(-5000, self.y1)
+        box.close()
+        return pathops.op(outline(self.parts, width, cap, join), box, pathops.PathOp.INTERSECTION)
+
+
+def outline(parts, width, cap="round", join="round"):
     """Expand skeleton parts to a single overlap-free, clockwise outline."""
     result = pathops.Path()
     for part in parts:
-        piece = part.path(width)
+        piece = part.path(width, cap, join)
         piece.simplify()
         result = pathops.op(result, piece, pathops.PathOp.UNION)
     result.simplify(clockwise=True)

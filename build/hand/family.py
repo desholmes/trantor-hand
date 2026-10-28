@@ -9,7 +9,7 @@ modified version has to be published under a different family name.
 """
 from common import ROOT, Builder
 
-from .glyphs import ACCENTS, ACCENT_UNICODE_NAMES, COMPOSITES, GLYPHS
+from .glyphs import ACCENTS, GLYPHS
 from .kerning import lowercase_pairs
 
 
@@ -34,8 +34,6 @@ class Hand(Builder):
 
     GLYPHS = GLYPHS
     ACCENTS = ACCENTS
-    COMPOSITES = COMPOSITES
-    ACCENT_UNICODE_NAMES = ACCENT_UNICODE_NAMES
     STYLISTIC_SETS = [("ss01", "Title-sequence o and w", [("o", "o.ss01"), ("w", "w.ss01")])]
 
     # Vertical metrics: ascender/descender for line spacing (close to upstream's

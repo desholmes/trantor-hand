@@ -10,9 +10,7 @@ arches and straight diagonals. `sb` is the (left, right) side bearing measured
 from the ink, and `top` is the centre-line x used to place accents (it
 defaults to the middle of the ink).
 """
-from dataclasses import dataclass, field
-
-from skeleton import Disc, Stroke, arc, circle
+from skeleton import Disc, Glyph, Stroke, arc, circle
 
 X = 470  # x-height
 ASC = 740  # ascender
@@ -23,15 +21,6 @@ R = X / 2  # bowl radius
 STEM = 60  # side bearing beside a vertical stem
 ROUND = 40  # side bearing beside a bowl
 DIAG = 15  # side bearing beside a diagonal
-
-
-@dataclass
-class Glyph:
-    parts: list
-    sb: tuple
-    unicode: int = None
-    top: float = None
-    bottom: float = None
 
 
 def bowl():
@@ -128,11 +117,3 @@ ACCENTS = {
     "tilde.case": [Stroke(-115, 870).curve((-55, 960), (55, 830), (115, 920))],
     "cedilla": [Stroke(0, -20).line(0, -80).arc(0, -135, 55, 90, -150)],
 }
-
-# Accented letters used in UK English loanwords (café, naïve, façade, rôle,
-# señor, Zoë, crème brûlée...).
-MARKS = {"grave": "GRAVE", "acute": "ACUTE", "circumflex": "CIRCUMFLEX", "dieresis": "DIAERESIS"}
-COMPOSITES = [(v + m, v, m) for v in "aeiouAEIOU" for m in MARKS]
-COMPOSITES += [("ccedilla", "c", "cedilla"), ("Ccedilla", "C", "cedilla"),
-               ("ntilde", "n", "tilde"), ("Ntilde", "N", "tilde")]
-ACCENT_UNICODE_NAMES = dict(MARKS, cedilla="CEDILLA", tilde="TILDE")

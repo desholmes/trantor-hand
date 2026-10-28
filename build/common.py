@@ -9,6 +9,7 @@ stylesheet.
 import unicodedata
 from pathlib import Path
 
+import pathops
 from fontTools.feaLib.builder import addOpenTypeFeaturesFromString
 from fontTools.pens.cu2quPen import Cu2QuPen
 from fontTools.pens.transformPen import TransformPen
@@ -33,6 +34,14 @@ LICENSE_URL = "https://openfontlicense.org"
 
 LOWERCASE = set("abcdefghijklmnopqrstuvwxyz")
 
+# Accented letters used in UK English loanwords (café, naïve, façade, rôle,
+# señor, Zoë, crème brûlée...).
+MARKS = {"grave": "GRAVE", "acute": "ACUTE", "circumflex": "CIRCUMFLEX", "dieresis": "DIAERESIS"}
+COMPOSITES = [(v + m, v, m) for v in "aeiouAEIOU" for m in MARKS]
+COMPOSITES += [("ccedilla", "c", "cedilla"), ("Ccedilla", "C", "cedilla"),
+               ("ntilde", "n", "tilde"), ("Ntilde", "N", "tilde")]
+ACCENT_UNICODE_NAMES = dict(MARKS, cedilla="CEDILLA", tilde="TILDE")
+
 
 class Builder:
     # Set by each family.
@@ -43,11 +52,15 @@ class Builder:
     COPYRIGHT = None
     DESIGNER = None
     DESCRIPTION = None
-    WEIGHTS = []  # dicts: style, weight, stroke, source
+    # dicts: style, weight, stroke, source and, for a weight made by
+    # thickening the upstream outlines, embolden (the extra stroke width).
+    WEIGHTS = []
+    CAP = "round"  # stroke ends: round or flat
+    JOIN = "round"  # stroke corners: round or sharp
     GLYPHS = {}
     ACCENTS = {}
-    COMPOSITES = []  # (name, base, mark)
-    ACCENT_UNICODE_NAMES = {}
+    COMPOSITES = COMPOSITES  # (name, base, mark)
+    ACCENT_UNICODE_NAMES = ACCENT_UNICODE_NAMES
     STYLISTIC_SETS = []  # (tag, name, [(glyph, alternate), ...])
     TYPO_ASCENDER = 840
     TYPO_DESCENDER = -260
@@ -86,7 +99,7 @@ class Builder:
                     table.cmap[unicode] = name
 
     def outline(self, parts):
-        return outline(parts, self.spec["stroke"])
+        return outline(parts, self.spec["stroke"], self.CAP, self.JOIN)
 
     def draw(self, parts, dx=0):
         path = self.outline(parts)
@@ -104,6 +117,35 @@ class Builder:
             self.tops[name] = top + dx
         for name, parts in self.ACCENTS.items():
             self.set_glyph(name, self.draw(parts), 0)
+
+    def embolden(self, extra):
+        """Thicken every outline by `extra` (half on each side), keeping the side
+        bearings, then rescale vertically so the baseline and cap height stay
+        where they were. This makes the vertical strokes `extra` heavier and
+        the horizontals slightly less, as in most bold designs."""
+        glyph_set = self.font.getGlyphSet()
+        height = self.glyf["H"].yMax
+        half = extra / 2
+        scale = height / (height + extra)
+        for name in self.order:
+            glyph = self.glyf[name]
+            if glyph.isComposite() or glyph.numberOfContours == 0:
+                continue
+            path = pathops.Path()
+            glyph_set[name].draw(path.getPen())
+            path.simplify(clockwise=True)
+            ring = pathops.Path(path)
+            ring.stroke(extra, pathops.LineCap.BUTT_CAP, pathops.LineJoin.MITER_JOIN, 4)
+            path = pathops.op(path, ring, pathops.PathOp.UNION, clockwise=True)
+            path.convertConicsToQuads()
+            pen = TTGlyphPen(None)
+            path.draw(Cu2QuPen(TransformPen(pen, (1, 0, 0, scale, half, half * scale)), max_err=0.5))
+            self.glyf.glyphs[name] = pen.glyph()
+        for name in self.order:
+            advance, _ = self.hmtx[name]
+            glyph = self.glyf[name]
+            glyph.recalcBounds(self.glyf)
+            self.hmtx[name] = (advance + extra if advance else 0, getattr(glyph, "xMin", 0))
 
     def capital_anchor(self, base, glyph):
         """The x to centre an accent on, for an upstream glyph."""
@@ -222,9 +264,7 @@ feature {tag} {{
         os2.sTypoAscender, os2.sTypoDescender, os2.sTypoLineGap = self.TYPO_ASCENDER, self.TYPO_DESCENDER, 0
         os2.usWinAscent = max(self.TYPO_ASCENDER, y_max)
         os2.usWinDescent = max(-self.TYPO_DESCENDER, -y_min)
-        stroke = self.spec["stroke"]
-        os2.sxHeight = round(self.X_HEIGHT + stroke / 2)
-        os2.sCapHeight = round(self.CAP_HEIGHT + stroke / 2)
+        os2.sxHeight, os2.sCapHeight = self.heights()
         os2.usDefaultChar, os2.usBreakChar, os2.usMaxContext = 0, 32, 2
         os2.ulCodePageRange1, os2.ulCodePageRange2 = 1, 0  # Latin 1
         os2.recalcUnicodeRanges(self.font)
@@ -239,6 +279,11 @@ feature {tag} {{
         self.font["post"].underlinePosition = -150
         return ps_name
 
+    def heights(self):
+        """x-height and cap height of the ink, for OS/2."""
+        stroke = self.spec["stroke"]
+        return round(self.X_HEIGHT + stroke / 2), round(self.CAP_HEIGHT + stroke / 2)
+
     def prepare(self):
         """Adjust the upstream glyphs before anything is added."""
 
@@ -246,6 +291,8 @@ feature {tag} {{
         self.prepare()
         self.drawn_glyphs()
         self.composites()
+        if self.spec.get("embolden"):
+            self.embolden(self.spec["embolden"])
         self.font.setGlyphOrder(self.order)
         self.glyf.setGlyphOrder(self.order)
         ps_name = self.metadata()
