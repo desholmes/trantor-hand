@@ -11,6 +11,7 @@ version has to be published under a different family name.
 from common import ROOT, Builder
 
 from .glyphs import ACCENTS, GLYPHS
+from .kerning import lowercase_pairs
 
 
 class Caption(Builder):
@@ -37,10 +38,14 @@ class Caption(Builder):
 
     GLYPHS = GLYPHS
     ACCENTS = ACCENTS
+    STYLISTIC_SETS = [("ss01", "Dotted e", [("e", "e.ss01")])]
 
     # Accented capitals reach about 1000 and descenders -230.
     TYPO_ASCENDER = 950
     TYPO_DESCENDER = -250
+
+    def new_pairs(self, groups):
+        return lowercase_pairs(groups)
 
     def heights(self):
         return round(self.glyf["x"].yMax), round(self.glyf["H"].yMax)

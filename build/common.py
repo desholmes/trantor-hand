@@ -157,11 +157,15 @@ class Builder:
             return self.tops[base]
         return self.capital_anchor(base, self.glyf[base])
 
+    def component_base(self, base):
+        """The glyph an accented letter is built on."""
+        return "dotlessi" if base == "i" else base
+
     def composites(self):
         for name, base, mark in self.COMPOSITES:
             accent = mark if mark == "cedilla" else mark + (".case" if base.isupper() else ".lc")
             pen = TTGlyphPen(self.glyf.glyphs)
-            pen.addComponent("dotlessi" if base == "i" else base, (1, 0, 0, 1, 0, 0))
+            pen.addComponent(self.component_base(base), (1, 0, 0, 1, 0, 0))
             pen.addComponent(accent, (1, 0, 0, 1, round(self.anchor(base)), 0))
             case = "CAPITAL" if base.isupper() else "SMALL"
             cp = ord(unicodedata.lookup(f"LATIN {case} LETTER {base.upper()} WITH {self.ACCENT_UNICODE_NAMES[mark]}"))
@@ -189,6 +193,25 @@ class Builder:
                 groups.setdefault(base, [base]).append(name)
         groups["i"] = ["i", "dotlessi"] + groups.get("i", [])[1:]
         return groups
+
+    @staticmethod
+    def expand_pairs(pairs, groups, punctuation, scale=1):
+        """Kerning from (left, right, value) rules. Each side is a string of
+        characters; a letter also stands for its accented and stylistic-set
+        forms. Values are multiplied by scale and rounded to 5 units."""
+        def names(side):
+            out = []
+            for ch in side:
+                name = punctuation.get(ch, ch)
+                out += groups.get(name, [name])
+            return out
+
+        kerning = {}
+        for left, right, value in pairs:
+            for l in names(left):
+                for r in names(right):
+                    kerning[l, r] = value if scale == 1 else round(value * scale / 5) * 5
+        return kerning
 
     def new_pairs(self, groups):
         """Kerning for the new glyphs: {(left, right): value}."""

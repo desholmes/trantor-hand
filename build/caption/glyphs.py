@@ -8,7 +8,9 @@ horizontal strokes sit half a stroke inside them.
 
 The lowercase borrows the capitals' construction: rounded-rectangle bowls,
 square-shouldered arches, diagonals cut level at the baseline and x-height,
-and round dots standing in for the bars of e and f, as they do in E and F.
+and a round dot standing in for the bar of f, as it does in F. An e with a
+dot in place of its bar, like E, is in stylistic set 1; it is less legible
+in running text.
 """
 import math
 
@@ -54,7 +56,7 @@ GLYPHS = {
     "c": Glyph([poly([(W, XT), (0, XT), (0, XB), (W, XB)], R)], (ROUND, 30), top=W / 2),
     "d": Glyph([bowl(), Stroke(W, ASC).line(W, 0)], (ROUND, STEM), top=W / 2),
     "e": Glyph(
-        [poly([(W, XT), (0, XT), (0, XB), (W, XB)], R), Disc(W + HALF - DOT, MID, DOT)],
+        [poly([(0, MID), (W, MID), (W, XT), (0, XT), (0, XB), (W, XB)], R)],
         (ROUND, 30), top=W / 2),
     "f": Glyph(
         [poly([(0, 0), (0, AT), (210, AT)], R), Disc(HALF + 45 + DOT, XT, DOT)],
@@ -105,6 +107,11 @@ GLYPHS = {
         (DIAG, DIAG), top=220),
     "z": Glyph([poly([(0, XT), (W, XT), (0, XB), (W + 20, XB)])], (45, 45)),
     "dotlessi": Glyph([Stroke(0, X).line(0, 0)], (STEM, STEM), unicode=0x0131, top=0),
+
+    # Stylistic set 1: an e with a dot in place of its bar, like E.
+    "e.ss01": Glyph(
+        [poly([(W, XT), (0, XT), (0, XB), (W, XB)], R), Disc(W + HALF - DOT, MID, DOT)],
+        (ROUND, 30), top=W / 2),
 
     # Basic Latin symbols missing upstream.
     "dollar": Glyph(

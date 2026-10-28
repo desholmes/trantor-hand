@@ -2,8 +2,10 @@
 
 Each side of a pair is a string of characters; a letter also stands for its
 accented and stylistic-set forms. The upstream capital-to-capital kerning is
-kept as it is (see build.py).
+kept as it is (see common.py).
 """
+from common import Builder
+
 PUNCTUATION = {
     ".": "period", ",": "comma", "'": "quotesingle", '"': "quotedbl",
     "’": "quoteright", "”": "quotedblright", ")": "parenright",
@@ -28,19 +30,6 @@ PAIRS = [
 ]
 
 
-def expand(side, groups):
-    names = []
-    for ch in side:
-        name = PUNCTUATION.get(ch, ch)
-        names += groups.get(name, [name])
-    return names
-
-
 def lowercase_pairs(groups):
     """Return {(left, right): value} for PAIRS, expanding letters to their groups."""
-    kerning = {}
-    for left, right, value in PAIRS:
-        for l in expand(left, groups):
-            for r in expand(right, groups):
-                kerning[l, r] = value
-    return kerning
+    return Builder.expand_pairs(PAIRS, groups, PUNCTUATION)

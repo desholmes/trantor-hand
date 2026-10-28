@@ -11,9 +11,13 @@ version has to be published under a different family name.
 """
 import copy
 
+from fontTools.pens.recordingPen import RecordingPen
+from fontTools.pens.ttGlyphPen import TTGlyphPen
+
 from common import ROOT, Builder
 
 from .glyphs import ACCENTS, GLYPHS
+from .kerning import lowercase_pairs
 
 ALTERNATES = "efkpswxyz"
 
@@ -60,6 +64,34 @@ class Mark(Builder):
         renamed = {ch: ch.upper() + ".ss01" for ch in ALTERNATES}
         kern = self.font["kern"].kernTables[0]
         kern.kernTable = {(renamed.get(l, l), renamed.get(r, r)): v for (l, r), v in kern.kernTable.items()}
+
+        # The logo O's dot would crowd an accent, so accented O's use an O
+        # without it (its smallest contour).
+        pen = RecordingPen()
+        self.font.getGlyphSet()["O"].draw(pen)
+        contours, current = [], []
+        for op, args in pen.value:
+            current.append((op, args))
+            if op == "closePath":
+                contours.append(current)
+                current = []
+        dot = min(contours, key=lambda c: self._area(c))
+        out = TTGlyphPen(None)
+        for op, args in (step for c in contours if c is not dot for step in c):
+            getattr(out, op)(*args)
+        self.set_glyph("O.nodot", out.glyph(), self.hmtx["O"][0])
+
+    @staticmethod
+    def _area(contour):
+        points = [pt for _, args in contour for pt in args]
+        xs, ys = [x for x, _ in points], [y for _, y in points]
+        return (max(xs) - min(xs)) * (max(ys) - min(ys))
+
+    def component_base(self, base):
+        return "O.nodot" if base == "O" else super().component_base(base)
+
+    def new_pairs(self, groups):
+        return lowercase_pairs(groups, ALTERNATES)
 
     def heights(self):
         return round(self.glyf["x"].yMax), round(self.glyf["H"].yMax)
