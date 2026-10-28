@@ -1,7 +1,7 @@
 [project]
-name = "trantor-hand"
+name = "trantor-type"
 version = "1.0.0"
-description = "Foundation Titles Hand with an added lowercase, built as TTF and webfonts."
+description = "The Trantor font series, built as TTF and webfonts from OFL fonts by Roger Sperberg."
 readme = "README.md"
 license = "OFL-1.1"
 requires-python = ">=3.12"

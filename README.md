@@ -1,6 +1,6 @@
 # Trantor Hand
 
-[About this project](https://desholmes.github.io/trantor-hand/).
+[About this project](https://desholmes.github.io/trantor-type/).
 
 **Trantor Hand** is Foundation Titles Hand v0.85 (Regular and SemiBold) with:
 
@@ -10,11 +10,11 @@
 1. rebuilt kerning: the original capital pairs plus lowercase pairs (Ta, Yo, We, r., y, …);
 1. an optional stylistic set (`ss01`) with the dotted o and crossed w of the title-sequence capitals.
 
-The upstream licence reserves the name "FoundationTitlesHand", so the modified font has to use a different name. To rename it, change `FAMILY` and `CSS_FILE` in [build/build.py](build/build.py) and rebuild.
+The upstream licence reserves the name "FoundationTitlesHand", so the modified font has to use a different name. To rename it, change `FAMILY` and `CSS_FILE` in [build/hand/family.py](build/hand/family.py) and rebuild.
 
 ## Using the webfont
 
-Copy [fonts/webfonts/](fonts/webfonts/) into the web application and include the stylesheet:
+Copy [fonts/hand/webfonts/](fonts/hand/webfonts/) into the web application and include the stylesheet:
 
 ```html
 <link rel="stylesheet" href="/fonts/trantor-hand.css" />
@@ -34,7 +34,7 @@ h2 {
 } /* dotted o, crossed w */
 ```
 
-WOFF2 (with a WOFF fallback) is used by all current browsers. Desktop TTFs are in [fonts/ttf/](fonts/ttf/).
+WOFF2 (with a WOFF fallback) is used by all current browsers. Desktop TTFs are in [fonts/hand/ttf/](fonts/hand/ttf/).
 
 Open the specimen with `make specimen` and go to <http://localhost:8000/specimen/>. Opening it directly from disk won't work because browsers block fonts loaded over `file://`.
 
@@ -50,15 +50,15 @@ Open the specimen with `make specimen` and go to <http://localhost:8000/specimen
 make fonts
 ```
 
-This installs the locked dependencies with uv and runs [build/build.py](build/build.py), which:
+This installs the locked dependencies with uv and runs [build/build.py](build/build.py) (`make fonts FAMILY=hand` builds one family), which:
 
-1. loads the upstream TTFs from [upstream/fonts/ttf/latest/](upstream/fonts/ttf/latest/);
-2. replaces the placeholder lowercase (upstream duplicated the capitals) with glyphs drawn as centre-line skeletons in [build/glyphs.py](build/glyphs.py) and expanded to outlines with round caps and joins ([build/skeleton.py](build/skeleton.py));
+1. loads the upstream TTFs from [families/hand/upstream/fonts/ttf/latest/](families/hand/upstream/fonts/ttf/latest/);
+2. replaces the placeholder lowercase (upstream duplicated the capitals) with glyphs drawn as centre-line skeletons in [build/hand/glyphs.py](build/hand/glyphs.py) and expanded to outlines with round caps and joins ([build/skeleton.py](build/skeleton.py));
 3. adds the accented composites and symbols;
-4. rebuilds kerning ([build/kerning.py](build/kerning.py)), names, vertical metrics and OS/2 data;
-5. writes `fonts/ttf/*.ttf`, `fonts/webfonts/*.woff2`, `*.woff` and `trantor-hand.css`.
+4. rebuilds kerning ([build/hand/kerning.py](build/hand/kerning.py)), names, vertical metrics and OS/2 data;
+5. writes `fonts/hand/ttf/*.ttf`, `fonts/hand/webfonts/*.woff2`, `*.woff` and `trantor-hand.css`.
 
-To change a letter, edit its skeleton in `build/glyphs.py` and rebuild. Both weights update together.
+To change a letter, edit its skeleton in `build/hand/glyphs.py` and rebuild. Both weights update together.
 
 ## Dependencies
 
@@ -81,6 +81,6 @@ Dependencies are declared in [pyproject.toml](pyproject.toml) and locked with ha
 
 ## Source and licence
 
-[upstream/](upstream/) is a copy of [rsperberg/foundation-titles-hand](https://github.com/rsperberg/foundation-titles-hand) at commit `1c7b784` (22 Nov 2021), trimmed to what the build and licence need: the v0.85 TTFs, the original iFontMaker sources and the licence and font-log files. The sample images, the title-sequence reference frames and the older font versions were removed; the images in `upstream/README.md` now link to the original repo.
+[families/hand/upstream/](families/hand/upstream/) is a copy of [rsperberg/foundation-titles-hand](https://github.com/rsperberg/foundation-titles-hand) at commit `1c7b784` (22 Nov 2021), trimmed to what the build and licence need: the v0.85 TTFs, the original iFontMaker sources and the licence and font-log files. The sample images, the title-sequence reference frames and the older font versions were removed; the images in `families/hand/upstream/README.md` now link to the original repo.
 
-The fonts are licensed under the SIL Open Font License 1.1 (see [OFL.txt](OFL.txt)). The licence text has to be distributed with the fonts, and the fonts may not be sold on their own. Change history is in [FONTLOG.txt](FONTLOG.txt).
+The fonts are licensed under the SIL Open Font License 1.1 (see [OFL.txt](OFL.txt)). The licence text has to be distributed with the fonts, and the fonts may not be sold on their own. Change history is in [families/hand/FONTLOG.txt](families/hand/FONTLOG.txt).
