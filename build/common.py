@@ -61,7 +61,8 @@ class Builder:
     ACCENTS = {}
     COMPOSITES = COMPOSITES  # (name, base, mark)
     ACCENT_UNICODE_NAMES = ACCENT_UNICODE_NAMES
-    STYLISTIC_SETS = []  # (tag, name, [(glyph, alternate), ...])
+    # (tag, name, [(glyph, alternate), ...]); the name is shown for ssNN tags.
+    STYLISTIC_SETS = []
     TYPO_ASCENDER = 840
     TYPO_DESCENDER = -260
     X_HEIGHT = 470  # centre-line heights; the stroke adds half its width
@@ -219,9 +220,10 @@ feature kern {{
 """
         for tag, label, subs in self.STYLISTIC_SETS:
             body = "\n".join(f"  sub {g} by {alt};" for g, alt in subs)
+            if tag.startswith("ss"):
+                body = f'  featureNames {{ name "{label}"; }};\n' + body
             fea += f"""
 feature {tag} {{
-  featureNames {{ name "{label}"; }};
 {body}
 }} {tag};
 """

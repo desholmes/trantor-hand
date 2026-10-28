@@ -8,7 +8,7 @@ MIN_RELEASE_AGE_DAYS=3
 EXCLUDE_NEWER=$(shell date -u -v-$(MIN_RELEASE_AGE_DAYS)d +%Y-%m-%dT%H:%M:%SZ 2>/dev/null || date -u -d '-$(MIN_RELEASE_AGE_DAYS) days' +%Y-%m-%dT%H:%M:%SZ)
 
 # Build the TTF and webfont files from the locked environment. FAMILY limits
-# the build to one family (hand, caption); all families are built by default.
+# the build to one family (hand, caption, mark); all families are built by default.
 fonts: sync
 	$(UV) run --locked python build/build.py $(FAMILY)
 

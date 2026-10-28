@@ -12,6 +12,8 @@ and round dots standing in for the bars of e and f, as they do in E and F.
 """
 import math
 
+import flat
+from flat import accent_parts, beyond
 from skeleton import Clipped, Disc, Glyph, Stroke, poly
 
 HALF = 58  # half the Regular stroke
@@ -35,38 +37,12 @@ def bowl(x0=0, x1=W):
     return poly([(x0, XB), (x1, XB), (x1, XT), (x0, XT)], R, closed=True)
 
 
-def beyond(p, q, d=150):
-    """The point d past p on the line from q through p."""
-    length = math.dist(p, q)
-    return (p[0] + (p[0] - q[0]) * d / length, p[1] + (p[1] - q[1]) * d / length)
-
-
 def tip(x0, x1, top, bottom):
-    """The centre-line vertex of a V from x0 to x1 whose sharp point just
-    touches `bottom` (or `top`, if top < bottom, for an upward point)."""
-    half_angle = math.atan2(abs(x1 - x0) / 2, abs(top - bottom))
-    offset = HALF / math.sin(half_angle)
-    return ((x0 + x1) / 2, bottom + (offset if top > bottom else -offset))
+    return flat.tip(x0, x1, top, bottom, HALF)
 
 
 def vee(x0, x1, top=X, bottom=0):
-    v = tip(x0, x1, top, bottom)
-    return Clipped([poly([beyond((x0, top), v), v, beyond((x1, top), v)])], bottom, top)
-
-
-def accent_parts(kind, base):
-    """Accent centred on x=0, sitting `base` units up (the gap above the letter)."""
-    if kind == "acute":
-        return [Clipped([Stroke(-80, base - 30).line(80, base + 200)], base, base + 150)]
-    if kind == "grave":
-        return [Clipped([Stroke(80, base - 30).line(-80, base + 200)], base, base + 150)]
-    if kind == "circumflex":
-        return [Clipped([poly([(-150, base - 30), (0, base + 120), (150, base - 30)])], base, base + 170)]
-    if kind == "dieresis":
-        return [Disc(-105, base + 65, 60), Disc(105, base + 65, 60)]
-    if kind == "tilde":
-        return [Stroke(-140, base + 20).curve((-70, base + 140), (70, base - 30), (140, base + 90))]
-    raise ValueError(kind)
+    return flat.vee(x0, x1, top, bottom, HALF)
 
 
 GLYPHS = {
@@ -167,10 +143,5 @@ GLYPHS = {
         (ROUND, ROUND), unicode=0x00B0),
 }
 
-# Accents are drawn centred on x=0 at their final height: ".lc" above the
-# x-height and ".case" above the capitals.
-ACCENTS = {}
-for _kind in ("grave", "acute", "circumflex", "dieresis", "tilde"):
-    ACCENTS[_kind + ".lc"] = accent_parts(_kind, X + 75)
-    ACCENTS[_kind + ".case"] = accent_parts(_kind, ASC + 65)
-ACCENTS["cedilla"] = [poly([(0, 20), (0, -120), (-120, -120)], 60)]
+# Accents are drawn centred on x=0 at their final height.
+ACCENTS = flat.accents(X, ASC)

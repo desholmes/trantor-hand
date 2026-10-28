@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Build the Trantor fonts.
 
-Usage: build.py [family ...]   (hand, caption; all families when none are given)
+Usage: build.py [family ...]   (hand, caption, mark; all families when none are given)
 
 Writes fonts/<family>/ttf/*.ttf and fonts/<family>/webfonts/ (WOFF2, WOFF
 and a CSS @font-face stylesheet) for each family.
@@ -12,8 +12,9 @@ import sys
 from common import RELEASE_EPOCH
 from caption.family import Caption
 from hand.family import Hand
+from mark.family import Mark
 
-FAMILIES = {cls.KEY: cls for cls in (Hand, Caption)}
+FAMILIES = {cls.KEY: cls for cls in (Hand, Caption, Mark)}
 
 
 def main(names):
