@@ -20,10 +20,23 @@ from skeleton import outline
 
 ROOT = Path(__file__).resolve().parent.parent
 
-# One version for the whole series.
-VERSION = "1.000"
+
+
+def font_version(release):
+    """The version written into the fonts for a release: OpenType wants a
+    decimal with three places, so MAJOR.MINOR.PATCH becomes MAJOR.MINORPATCH
+    (1.0.0 is 1.000, 1.2.3 is 1.203)."""
+    major, minor, patch = (int(part) for part in release.split("."))
+    if minor > 9 or patch > 99:
+        raise ValueError(f"{release}: the minor version must be under 10 and the patch under 100")
+    return f"{major}.{minor}{patch:02d}"
+
+
+# One version for the whole series, tagged v1.0.0 on GitHub.
+RELEASE = "1.0.0"
+VERSION = font_version(RELEASE)
 # Font timestamps are pinned to the release date so rebuilds are byte-identical.
-# Update alongside VERSION; SOURCE_DATE_EPOCH in the environment overrides it.
+# Update alongside RELEASE; SOURCE_DATE_EPOCH in the environment overrides it.
 RELEASE_EPOCH = "1793145600"  # 2026-10-28T00:00:00Z
 
 LICENSE = (

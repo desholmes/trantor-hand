@@ -1,6 +1,6 @@
 name: Release
 
-# On a version tag (v1.000 for fonts Version 1.000): check the fonts, package
+# On a version tag (v1.0.0, matching RELEASE in build/common.py): check the fonts, package
 # the committed fonts and publish a GitHub release with the zips, checksums
 # and notes from the FONTLOGs.
 

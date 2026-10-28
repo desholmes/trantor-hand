@@ -22,7 +22,7 @@ check-fonts: sync
 	rm -rf fonts && mv "$$tmp/committed" fonts && rm -rf "$$tmp"; exit $$status
 
 # Package dist/*.zip, SHA256SUMS and NOTES.md for a GitHub release. TAG, if
-# given, must match the font version (e.g. make release TAG=v1.000).
+# given, must match the series version (e.g. make release TAG=v1.0.0).
 release: check-fonts
 	$(UV) run --locked python build/release.py $(TAG)
 

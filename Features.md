@@ -119,7 +119,7 @@ GitHub Pages, static HTML, using the fonts themselves:
   - **Usage.**
   - **Download:** links to the latest release assets.
 - **Usage guide (on each family page, with a summary in the README):**
-  - Web: self-host and include `fonts/trantor.css` or the family's own CSS. Pin to a release with jsDelivr (`cdn.jsdelivr.net/gh/desholmes/trantor-type@v1.000/fonts/...`). Use `font-display: swap`, preload the WOFF2, apply ss01 with `font-feature-settings`.
+  - Web: self-host and include `fonts/trantor.css` or the family's own CSS. Pin to a release with jsDelivr (`cdn.jsdelivr.net/gh/desholmes/trantor-type@v1.0.0/fonts/...`). Use `font-display: swap`, preload the WOFF2, apply ss01 with `font-feature-settings`.
   - Desktop: install the TTFs on macOS and Windows; find alternates in Figma, Adobe and Pages.
   - Which font to use when: Hand for titles and short running text, Mark for wordmarks of a few words, Caption for labels with tracking. Include suggested `letter-spacing` and pairings.
   - Mark and Caption's lowercase is our addition. For the on-screen look, set them in caps with `text-transform: uppercase`.
@@ -128,7 +128,7 @@ GitHub Pages, static HTML, using the fonts themselves:
 
 ### Releases
 
-- **Version the series as a whole.** All families share one version, and the tag equals the font version string: tag `v1.000` ↔ name-table `Version 1.000`. Per-family tags (`hand-v1.000`) break GitHub's "Latest release" and complicate CI, so I'd only use them if the families need to ship independently. *(Decision 3)*
+- **Version the series as a whole.** All families share one version, and the tag equals the font version string: tag `v1.000` ↔ name-table `Version 1.000`. *(Changed: tags use semantic versions, `v1.0.0`; the fonts carry `Version 1.000`, derived from it.)* Per-family tags (`hand-v1.000`) break GitHub's "Latest release" and complicate CI, so I'd only use them if the families need to ship independently. *(Decision 3)*
 - **Release assets:**
   - `TrantorType.zip`: every family, `OFL.txt`, FONTLOGs and a README. *(Built without versions in the names, so `releases/latest/download/<name>` links stay stable.)*
   - One zip per family, e.g. `TrantorHand.zip`: `ttf/`, `webfonts/` with CSS, that family's `OFL.txt` and `FONTLOG.txt`, and a short README.
@@ -154,7 +154,7 @@ GitHub Pages, static HTML, using the fonts themselves:
 6. Update licence files: root OFL with all copyright lines, per-family OFL, LICENSE-CODE, disclaimers.
 7. Site: shared CSS, landing page, three family pages with specimen and usage.
 8. CI: `check.yml`, then `release.yml` and `make release`.
-9. Tag `v1.000`, check the release assets and Pages, then optionally tell the upstream author.
+9. Tag `v1.0.0`, check the release assets and Pages, then optionally tell the upstream author.
 
 ### Decisions needed
 

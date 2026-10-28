@@ -49,12 +49,12 @@ The committed fonts are what the site serves and what releases package.
 
 ## Releasing
 
-All families share one version, `VERSION` in [build/common.py](build/common.py), and a release is tagged `v` plus that version (`v1.000` for `Version 1.000`).
+All families share one version, `RELEASE` in [build/common.py](build/common.py), and a release is tagged `v` plus that version (`v1.0.0`). Inside the fonts it is written as a three-place decimal, as OpenType expects: 1.0.0 becomes `Version 1.000`, and 1.2.3 becomes `Version 1.203`. So the minor version must stay under 10 and the patch under 100.
 
-1. Set `VERSION` and `RELEASE_EPOCH` (the release date, midnight UTC), and add a ChangeLog entry to the top of each family's `FONTLOG.txt` with the same date.
+1. Set `RELEASE` and `RELEASE_EPOCH` (the release date, midnight UTC), and add a ChangeLog entry to the top of each family's `FONTLOG.txt` with the same date.
 2. Run `make fonts` and commit, including `fonts/`.
-3. Check the packages locally with `make release TAG=v1.000`. This writes `dist/`, which git ignores.
-4. Push a tag: `git tag v1.000 && git push origin v1.000`.
+3. Check the packages locally with `make release TAG=v1.0.0`. This writes `dist/`, which git ignores.
+4. Push a tag: `git tag v1.0.0 && git push origin v1.0.0`.
 
 The [release workflow](.github/workflows/release.yml) then:
 
@@ -84,4 +84,4 @@ Dependencies are declared in [pyproject.toml](pyproject.toml) and locked with ha
 | `make upgrade PKG=name`        | Upgrade one locked package, e.g. to fix a vulnerability |
 | `make audit`                   | Fail on HIGH-severity known vulnerabilities (Trivy)     |
 | `make check-fonts`             | Rebuild and compare with the committed fonts            |
-| `make release TAG=v1.000`      | Package `dist/` for a release                           |
+| `make release TAG=v1.0.0`      | Package `dist/` for a release                           |

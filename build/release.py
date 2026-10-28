@@ -12,7 +12,7 @@ Writes to dist/:
 The file names carry no version, so the site can link to
 releases/latest/download/<name>. The zips are byte-identical between runs:
 entries are sorted and dated at the release epoch. With a tag, it must match
-the font version (v1.000 for Version 1.000).
+the series version (v1.0.0 for RELEASE 1.0.0).
 """
 import hashlib
 import shutil
@@ -21,7 +21,7 @@ import time
 import zipfile
 
 from build import FAMILIES
-from common import RELEASE_EPOCH, ROOT, VERSION
+from common import RELEASE, RELEASE_EPOCH, ROOT, VERSION
 
 DIST = ROOT / "dist"
 SITE = "https://desholmes.github.io/trantor-type/"
@@ -29,7 +29,7 @@ DATE = time.gmtime(int(RELEASE_EPOCH))[:6]
 
 
 def readme(title, body):
-    return f"""{title} {VERSION}
+    return f"""{title} {RELEASE} (font version {VERSION})
 
 {body}
 
@@ -65,7 +65,7 @@ def latest_change(cls):
 
 
 def notes():
-    parts = [f"Fonts version {VERSION}. Specimens and usage: {SITE}\n"]
+    parts = [f"Trantor {RELEASE} (font version {VERSION}). Specimens and usage: {SITE}\n"]
     for cls in FAMILIES.values():
         heading, *changes = latest_change(cls).splitlines()
         parts.append(f"### {heading}\n\n" + "\n".join(changes) + "\n")
@@ -85,8 +85,8 @@ def write_zip(path, entries):
 
 
 def main(args):
-    if args and args[0] != f"v{VERSION}":
-        sys.exit(f"Tag {args[0]} does not match the font version {VERSION} (expected v{VERSION})")
+    if args and args[0] != f"v{RELEASE}":
+        sys.exit(f"Tag {args[0]} does not match the series version {RELEASE} (expected v{RELEASE})")
     shutil.rmtree(DIST, ignore_errors=True)
     DIST.mkdir()
 

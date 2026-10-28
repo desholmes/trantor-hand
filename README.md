@@ -17,7 +17,7 @@ Every family has Regular (400) and SemiBold (600) weights.
 On the web, load the series stylesheet from a release, or self-host [fonts/](fonts/):
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/desholmes/trantor-type@v1.000/fonts/trantor.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/desholmes/trantor-type@v1.0.0/fonts/trantor.css" />
 ```
 
 ```css
